@@ -1,0 +1,28 @@
+- name: install common rpm packages
+  yum: 
+    name:
+       - tcl
+       - tcl-devel
+       - finger
+       - bc
+       - atop
+       - dstat
+       - xz-devel 
+       - curl  
+       - libcurl 
+       - readline 
+       - libxml2 
+       - autoconf
+       - automake
+       - binutils
+       - bison
+       - flex
+       - gettext
+       - make
+       - patch
+       - gmp-devel
+       - mpfr-devel
+       - libmpc-devel
+       - glibc.i686
+    state: present
+    use_backend: yum

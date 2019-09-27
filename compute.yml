@@ -1,0 +1,9 @@
+- hosts: compute
+  gather_facts: no
+  become: false
+  strategy: free
+
+  roles:
+    - common
+    - infiniband
+    - slurmd

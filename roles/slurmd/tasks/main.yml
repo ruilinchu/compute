@@ -1,0 +1,16 @@
+- name: install rpm
+  yum: 
+    name:
+       - munge
+    state: present
+    use_backend: yum
+
+- name: copy munge key to host
+  copy: src=munge.key dest=/etc/munge/munge.key owner=munge group=munge mode=0600 force=yes
+
+- name: start munge service
+  service: name=munge state=started enabled=yes
+
+
+
+ 
