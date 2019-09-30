@@ -28,11 +28,17 @@
     - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
   when: rpm.stat.exists == False
 
+- name: check if slurm rpm is installed already
+  shell: rpm -qa | grep slurm-slurmd-{{ slurm_version}}
+  register: rpmqa
+
+- debug:
+    var: rpmqa
+    verbosity: 1
+
 - name: install slurm rpm   
-  yum: name={{ item }}
-  with_fileglob:
-    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
-  when: rpm.stat.exists == False
+  shell: yum install -y /usr/local/src/slurm*{{ slurm_version}}-1.el7.x86_64.rpm
+  when: rpmqa.rc != 0
 
 - name: create /etc/slurm folder
   file:  path=/etc/slurm state=directory mode=0755

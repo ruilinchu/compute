@@ -1,2 +1,2 @@
 slurm_version: 19.05.2
-slurm_spool_dir: /var/spool/slurmd/d
+slurm_spool_dir: /var/spool/slurm/d

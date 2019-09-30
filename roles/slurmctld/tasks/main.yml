@@ -46,11 +46,17 @@
     - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
   when: rpm.stat.exists == False
 
-- name: install slurm rpm   
-  yum: name={{ item }}
-  with_fileglob:
-    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
-  when: rpm.stat.exists == False
+- name: check if slurm rpm is installed already
+  shell: rpm -qa | grep slurm-slurmctld-{{ slurm_version}}
+  register: rpmqa
+
+- debug:
+    var: rpmqa
+    verbosity: 1
+
+- name: install slurm rpm
+  shell: yum install -y /usr/local/src/slurm*{{ slurm_version}}-1.el7.x86_64.rpm
+  when: rpmqa.rc != 0
 
 - name: create state save location   
   file: path={{ state_save_location }} state=directory owner=slurm group=slurm mode=0755
