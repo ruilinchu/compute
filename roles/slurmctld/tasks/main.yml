@@ -33,19 +33,6 @@
 - name: start munge service   
   service: name=munge state=started enabled=yes
 
-- stat: path="/usr/local/src/slurm-{{ slurm_version }}-1.el7.x86_64.rpm"
-  register: rpm
-
-- debug:
-    var: rpm
-    verbosity: 1
-
-- name: copy slurm rpm to host
-  copy: src={{ item }} dest=/usr/local/src/   
-  with_fileglob:
-    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
-  when: rpm.stat.exists == False
-
 - name: check if slurm rpm is installed already
   shell: rpm -qa | grep slurm-slurmctld-{{ slurm_version}}
   register: rpmqa
@@ -53,6 +40,12 @@
 - debug:
     var: rpmqa
     verbosity: 1
+
+- name: copy slurm rpm to host
+  copy: src={{ item }} dest=/usr/local/src/   
+  with_fileglob:
+    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
+  when: rpmqa.rc != 0
 
 - name: install slurm rpm
   shell: yum install -y /usr/local/src/slurm*{{ slurm_version}}-1.el7.x86_64.rpm

@@ -1,4 +1,4 @@
-- name: install rpm
+- name: install required rpm
   yum: 
     name:
        - munge
@@ -11,11 +11,12 @@
 - name: start munge service
   service: name=munge state=started enabled=yes
 
-- stat: path="/usr/local/src/slurm-{{ slurm_version }}-1.el7.x86_64.rpm"
-  register: rpm
+- name: check if slurm rpm is installed already
+  shell: rpm -qa | grep slurm-slurmd-{{ slurm_version}}
+  register: rpmqa
 
 - debug:
-    var: rpm
+    var: rpmqa
     verbosity: 1
 
 - name: copy slurm rpm to host
@@ -26,15 +27,7 @@
     - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
-  when: rpm.stat.exists == False
-
-- name: check if slurm rpm is installed already
-  shell: rpm -qa | grep slurm-slurmd-{{ slurm_version}}
-  register: rpmqa
-
-- debug:
-    var: rpmqa
-    verbosity: 1
+  when: rpmqa.rc != 0
 
 - name: install slurm rpm   
   shell: yum install -y /usr/local/src/slurm*{{ slurm_version}}-1.el7.x86_64.rpm
