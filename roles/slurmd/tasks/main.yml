@@ -11,6 +11,42 @@
 - name: start munge service
   service: name=munge state=started enabled=yes
 
+- stat: path="/usr/local/src/slurm-{{ slurm_version }}-1.el7.x86_64.rpm"
+  register: rpm
+
+- debug:
+    var: rpm
+    verbosity: 1
+
+- name: copy slurm rpm to host
+  copy: src={{ item }} dest=/usr/local/src/   
+  with_items:
+    - "/usr/local/src/slurm-slurmd-{{ slurm_version}}-1.el7.x86_64.rpm"
+    - "/usr/local/src/slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
+    - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
+    - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
+    - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+  when: rpm.stat.exists == False
+
+- name: install slurm rpm   
+  yum: name={{ item }}
+  with_fileglob:
+    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
+  when: rpm.stat.exists == False
+
+- name: create /etc/slurm folder
+  file:  path=/etc/slurm state=directory mode=0755
+
+- name: create slurmspooldir folder
+  file: path={{slurm_spool_dir}} state=directory owner=slurm group=slurm mode=0755 
+
+- name: copy slurm conf file   
+  copy: src="{{role_path}}/../slurmctld/files/slurm.conf" dest=/etc/slurm/slurm.conf mode=0644  
+
+- name: start slurmd service   
+  service: name=slurmd state=started enabled=yes
+
+
 
 
  

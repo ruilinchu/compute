@@ -47,7 +47,9 @@
   when: rpm.stat.exists == False
 
 - name: install slurm rpm   
-  shell: yum localinstall /usr/local/src/slurm*{{ slurm_version}}*.rpm
+  yum: name={{ item }}
+  with_fileglob:
+    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
   when: rpm.stat.exists == False
 
 - name: create state save location   

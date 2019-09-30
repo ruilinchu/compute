@@ -4,6 +4,6 @@
   strategy: free
 
   roles:
-    - common
-    - infiniband
+#    - common
+#    - infiniband
     - slurmd
