@@ -1,0 +1,5 @@
+- name: restart_slurmctld   
+  service: name=slurmctld state=restarted 
+
+- name: restart_slurmdbd   
+  service: name=slurmdbd state=restarted

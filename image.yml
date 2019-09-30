@@ -1,0 +1,11 @@
+- hosts: chroot
+  connection: chroot
+  gather_facts: no
+
+  tasks:
+  - name: test
+    file:
+      path: /etc/fstab
+      owner: root
+      group: root
+      mode: 0644

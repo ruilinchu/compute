@@ -1,0 +1,7 @@
+- hosts: slurmctld
+  gather_facts: no
+  become: false
+  strategy: free
+
+  roles:
+    - slurmctld

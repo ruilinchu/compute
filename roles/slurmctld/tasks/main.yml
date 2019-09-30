@@ -1,0 +1,81 @@
+- name: install required rpm 
+  yum:
+    name: 
+      - munge
+      - munge-devel
+      - munge-libs
+      - openssl
+      - openssl-devel
+      - pam-devel
+      - perl 
+      - perl-ExtUtils-MakeMaker
+      - readline-devel 
+      - rpm-build 
+      - mariadb-server 
+      - mariadb-devel
+      - policycoreutils
+    state: present
+    use_backend: yum
+
+- name: start and eable mariadb service
+  service: name=mariadb state=started enabled=yes
+
+- stat: path=/etc/munge/munge.key
+  register: key
+
+- name: create munge key
+  shell: create-munge-key
+  when: key.stat.exists == False
+
+- name: fetch munge key to ansible host  
+  fetch: src=/etc/munge/munge.key dest={{role_path}}/files/ flat=yes  
+
+- name: start munge service   
+  service: name=munge state=started enabled=yes
+
+- stat: path="/usr/local/src/slurm-{{ slurm_version }}-1.el7.x86_64.rpm"
+  register: rpm
+
+- debug:
+    var: rpm
+    verbosity: 1
+
+- name: copy slurm rpm to host
+  copy: src={{ item }} dest=/usr/local/src/   
+  with_fileglob:
+    - "/usr/local/src/slurm*{{ slurm_version}}*.rpm"
+  when: rpm.stat.exists == False
+
+- name: install slurm rpm   
+  shell: yum localinstall /usr/local/src/slurm*{{ slurm_version}}*.rpm
+  when: rpm.stat.exists == False
+
+- name: create state save location   
+  file: path={{ state_save_location }} state=directory owner=slurm group=slurm mode=0755
+
+- name: secure the database and create slurm_acct_db
+  script: secure_database.sh
+  args:
+    creates: /etc/my.cnf.d/innodb.cnf
+
+- name: copy slurmdbd conf file   
+  copy: src=slurmdbd.conf dest=/etc/slurm/slurmdbd.conf mode=0644  
+  notify:  
+    - restart_slurmdbd
+
+- name: put in slurm conf file from template  
+  template: src=slurm.conf.j2 dest=/etc/slurm/slurm.conf mode=0644  
+  notify:  
+    - restart_slurmctld 
+
+- name: fetch slurm.conf to ansible host
+  fetch: src=/etc/slurm/slurm.conf dest={{role_path}}/files/ flat=yes
+
+- name: start slurmdbd service   
+  service: name=slurmdbd state=started enabled=yes
+
+- name: start slurmctld service   
+  service: name=slurmctld state=started enabled=yes
+
+
+
