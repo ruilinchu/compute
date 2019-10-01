@@ -1,0 +1,13 @@
+- name: copy sh file in /etc/profile.d
+  copy: src={{ item }} dest=/etc/profile.d/
+  with_items:
+    - modules.sh
+    - modules.csh
+    - z00_StdEnv.sh
+    - z00_StdEnv.csh
+
+- name: put apps mount in /etc/fstab
+  lineinfile: dest=/etc/fstab line='apps:/opt /opt nfs defaults 0 0'
+
+- name: mount /opt
+  shell: mount -a

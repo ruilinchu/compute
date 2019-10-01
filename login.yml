@@ -1,10 +1,11 @@
-- hosts: compute
+- hosts: login
   gather_facts: no
   become: false
   strategy: free
-
+  
   roles:
     - common
-    - infiniband
-    - slurmd
     - module
+#    - infiniband
+    - slurmd
+ 

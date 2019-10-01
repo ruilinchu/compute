@@ -44,7 +44,7 @@
 
 - name: start slurmd service   
   service: name=slurmd state=started enabled=yes
-
+  when: " 'login' not in group_names "
 
 
 
