@@ -38,6 +38,7 @@
 
 - name: create slurmspooldir folder
   file: path={{slurm_spool_dir}} state=directory owner=slurm group=slurm mode=0755 
+  when: " 'login' not in group_names "
 
 - name: copy slurm conf file   
   copy: src="{{role_path}}/../slurmctld/files/slurm.conf" dest=/etc/slurm/slurm.conf mode=0644  

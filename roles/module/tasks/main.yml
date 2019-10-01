@@ -6,8 +6,14 @@
     - z00_StdEnv.sh
     - z00_StdEnv.csh
 
-- name: put apps mount in /etc/fstab
-  lineinfile: dest=/etc/fstab line='apps:/opt /opt nfs defaults 0 0'
+#- name: put apps mount in /etc/fstab
+#  lineinfile: dest=/etc/fstab line='apps:/opt /opt nfs defaults 0 0'
+# not a good idea, if nfs mount fail at boot, network will become unreachable,bug??
 
 - name: mount /opt
-  shell: mount -a
+  mount: 
+    path: /opt
+    src: apps:/opt 
+    fstype: nfs 
+    opts: ro
+    state: mounted
