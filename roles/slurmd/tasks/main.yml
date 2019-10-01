@@ -11,13 +11,13 @@
 - name: start munge service
   service: name=munge state=started enabled=yes
 
-- name: check if slurm rpm is installed already
-  shell: rpm -qa | grep slurm-slurmd-{{ slurm_version}}
-  register: rpmqa
+#- name: check if slurm rpm is installed already
+#  shell: rpm -qa | grep slurm-slurmd-{{ slurm_version}}
+#  register: rpmqa
 
-- debug:
-    var: rpmqa
-    verbosity: 1
+#- debug:
+#    var: rpmqa
+#    verbosity: 1
 
 - name: copy slurm rpm to host
   copy: src={{ item }} dest=/usr/local/src/   
@@ -27,11 +27,19 @@
     - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
-  when: rpmqa.rc != 0
+#  when: rpmqa.rc != 0
 
 - name: install slurm rpm   
-  shell: yum install -y /usr/local/src/slurm*{{ slurm_version}}-1.el7.x86_64.rpm
-  when: rpmqa.rc != 0
+  yum:
+    name:
+      - "/usr/local/src/slurm-slurmd-{{ slurm_version}}-1.el7.x86_64.rpm"
+      - "/usr/local/src/slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
+      - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
+      - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
+      - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+    state: present
+    use_backend: yum
+#  when: rpmqa.rc != 0
 
 - name: create /etc/slurm folder
   file:  path=/etc/slurm state=directory mode=0755
