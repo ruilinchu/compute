@@ -8,3 +8,4 @@
     - infiniband
     - slurmd
     - module
+    - beegfs_client

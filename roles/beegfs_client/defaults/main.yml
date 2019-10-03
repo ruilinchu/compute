@@ -1,0 +1,5 @@
+beegfs_version: 7.1.3
+mgmtd_hostname: hpc-10ke1.hpcc.usc.edu
+mount_point: /scratch
+quota: true
+network_interface: ["ib0","eth0"]
