@@ -25,8 +25,9 @@
     - "/usr/local/src/slurm-slurmd-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
     - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
-    - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
-    - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+#    - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
+#    - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+    - "/usr/local/src/pmix-2.2.3-1.el7.x86_64.rpm"
 #  when: rpmqa.rc != 0
 
 - name: install slurm rpm   
@@ -35,8 +36,9 @@
       - "/usr/local/src/slurm-slurmd-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
-      - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
-      - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+#      - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
+      - "/usr/local/src/pmix-2.2.3-1.el7.x86_64.rpm"
+#      - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
     state: present
     use_backend: yum
 #  when: rpmqa.rc != 0

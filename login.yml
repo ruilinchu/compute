@@ -1,11 +1,12 @@
-- hosts: login
+- hosts: build
   gather_facts: no
   become: false
   strategy: free
   
   roles:
-    - common
-    - module
-#    - infiniband
-    - slurmd
+#    - common
+#    - module
+    - infiniband
+#    - slurmd
+    - beegfs_client
  

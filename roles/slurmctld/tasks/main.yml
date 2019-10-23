@@ -53,11 +53,10 @@
       - "/usr/local/src/slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-pam_slurm-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-libpmi-{{ slurm_version}}-1.el7.x86_64.rpm"
-      - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
+#      - "/usr/local/src/slurm-devel-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-slurmdbd-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-slurmctld-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-contribs-{{ slurm_version}}-1.el7.x86_64.rpm"
-      - "/usr/local/src/slurm-example-configs-{{ slurm_version}}-1.el7.x86_64.rpm"
       - "/usr/local/src/slurm-perlapi-{{ slurm_version}}-1.el7.x86_64.rpm"
     state: present
     use_backend: yum
