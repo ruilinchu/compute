@@ -10,7 +10,8 @@
 #  lineinfile: dest=/etc/fstab line='apps:/opt /opt nfs defaults 0 0'
 # not a good idea, if nfs mount fail at boot, network will become unreachable,bug??
 
-- file: path=/opt/apps state=directory
+- name: create /opt/apps dir
+  file: path=/opt/apps state=directory 
 
 - name: mount /opt
   mount: 

@@ -1,36 +1,36 @@
 [login]
 discovery ib0a=10.125.254.6 
-#network_interface=["eth0"]
 
-[compute]
+[slurmctld]
+slurm cluster_name=discovery
+slurm-condo cluster_name=hpc-condo
+
+[compute_condo]
 #d0005 ib0a=10.125.254.105
 #d0006 ib0a=10.125.254.106
 #d0007 ib0a=10.125.254.107
-d0008 ib0a=10.125.254.108
-d0009 ib0a=10.125.254.109
-d0010 ib0a=10.125.254.110
+#d0008 ib0a=10.125.254.108
+#d0009 ib0a=10.125.254.109
+#d0010 ib0a=10.125.254.110
 d0011 ib0a=10.125.254.111
 d0012 ib0a=10.125.254.112
 d0013 ib0a=10.125.254.113
+
+[compute_condo:vars]
+slurmctld_node=slurm-condo
+
+[compute_main]
 d0014 ib0a=10.125.254.114
 d0015 ib0a=10.125.254.115
 
-[apps_node]
-apps
+[compute_main:vars]
+slurmctld_node=slurm
 
-[build_node]
-build ib0a=10.125.254.8
+[compute:children]
+compute_condo
+compute_main
 
-[slurmctld]
-slurm 
 
-[stateful]
-apps
-build
-discovery
-slurm
 
-[chroot]
-/var/chroots/centos-7
 
 

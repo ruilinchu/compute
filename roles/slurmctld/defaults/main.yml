@@ -1,5 +1,5 @@
-cluster_name: discovery
-control_machine: slurm.hpc.usc.edu
-control_addr: 10.125.255.5
+#cluster_name: discovery
+#control_machine: slurm.hpc.usc.edu
+#control_addr: 10.125.255.5
 state_save_location: /var/spool/slurm/ctld
 

@@ -28,7 +28,7 @@
   when: key.stat.exists == False
 
 - name: fetch munge key to ansible host  
-  fetch: src=/etc/munge/munge.key dest={{role_path}}/files/ flat=yes  
+  fetch: src=/etc/munge/munge.key dest={{role_path}}/files/munge.key.{{inventory_hostname}} flat=yes  
 
 - name: start munge service   
   service: name=munge state=started enabled=yes
@@ -69,18 +69,21 @@
   args:
     creates: /etc/my.cnf.d/innodb.cnf
 
+- name: creat /etc/slurm dir
+  file: path=/etc/slurm state=directory owner=root group=root mode=0755
+
 - name: copy slurmdbd conf file   
   copy: src=slurmdbd.conf dest=/etc/slurm/slurmdbd.conf mode=0644  
   notify:  
     - restart_slurmdbd
 
 - name: put in slurm conf file from template  
-  template: src=slurm.conf.j2 dest=/etc/slurm/slurm.conf mode=0644  
+  template: src=slurm.conf.{{inventory_hostname}}.j2 dest=/etc/slurm/slurm.conf mode=0644  
   notify:  
     - restart_slurmctld 
 
 - name: fetch slurm.conf to ansible host
-  fetch: src=/etc/slurm/slurm.conf dest={{role_path}}/files/ flat=yes
+  fetch: src=/etc/slurm/slurm.conf dest={{role_path}}/files/slurm.conf.{{inventory_hostname}} flat=yes
 
 - name: start slurmdbd service   
   service: name=slurmdbd state=started enabled=yes

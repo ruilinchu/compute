@@ -6,7 +6,9 @@
     use_backend: yum
 
 - name: copy munge key to host
-  copy: src="{{role_path}}/../slurmctld/files/munge.key" dest=/etc/munge/munge.key owner=munge group=munge mode=0600 force=yes
+  copy: src="{{role_path}}/../slurmctld/files/munge.key.{{slurmctld_node}}" dest=/etc/munge/munge.key owner=munge group=munge mode=0600 force=yes
+  notify:
+    - restart_munge
 
 - name: start munge service
   service: name=munge state=started enabled=yes
@@ -51,7 +53,7 @@
   when: " 'login' not in group_names "
 
 - name: copy slurm conf file   
-  copy: src="{{role_path}}/../slurmctld/files/slurm.conf" dest=/etc/slurm/slurm.conf mode=0644  
+  copy: src="{{role_path}}/../slurmctld/files/slurm.conf.{{slurmctld_node}}" dest=/etc/slurm/slurm.conf mode=0644  
 
 - name: start slurmd service   
   service: name=slurmd state=started enabled=yes

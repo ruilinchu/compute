@@ -8,8 +8,8 @@
 #
 # See the slurm.conf man page for more information.
 #
-ClusterName={{ cluster_name }}
-ControlMachine={{ inventory_hostname }}
+ClusterName=hpc-condo
+ControlMachine=slurm-condo
 #ControlAddr=
 #BackupController=
 #BackupAddr=
@@ -21,8 +21,8 @@ SlurmdPort=6818
 AuthType=auth/munge
 #JobCredentialPrivateKey=
 #JobCredentialPublicCertificate=
-StateSaveLocation={{ state_save_location }}
-SlurmdSpoolDir={{ slurm_spool_dir }}
+StateSaveLocation=/var/spool/slurm/ctld
+SlurmdSpoolDir=/var/spool/slurm/d
 SwitchType=switch/none
 MpiDefault=none
 SlurmctldPidFile=/var/run/slurmctld.pid
@@ -99,5 +99,5 @@ AccountingStorageHost=localhost
 #AccountingStorageUser=slurm
 #
 # COMPUTE NODES
-NodeName=d[0005-0015] Procs=16 State=UNKNOWN
+NodeName=d[0011-0013] Procs=24 State=UNKNOWN
 PartitionName=debug Nodes=ALL Default=YES MaxTime=INFINITE State=UP
