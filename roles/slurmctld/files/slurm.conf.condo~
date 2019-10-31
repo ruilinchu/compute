@@ -60,14 +60,13 @@ Waittime=0
 #
 # SCHEDULING
 SchedulerType=sched/backfill
-SchedulerParameters=preemptstrict_order,preempt_reorder_count=3
+#SchedulerParamters=preemptstrict_order,preempt_reorder_count=3
 SelectType=select/cons_res
 SelectTypeParameters=CR_Core_Memory
-GresTypes=gpu
-
+DefMemPerCPU=2048 
 PreemptType=preempt/partition_prio
-PreemptExemptTime=00:00:00
-PreemptMode=CANCEL
+PreemptExemptTime=0:30:00
+GresTypes=gpu
 
 #PRIORITY and fairshare
 
@@ -87,14 +86,15 @@ PriorityFlags=ACCRUE_ALWAYS,FAIR_TREE
 AccountingStorageEnforce=associations,limits,qos,safe
 
 # LOGGING
-SlurmctldDebug=debug5
+SlurmctldDebug=3
 SlurmctldLogFile=/var/log/slurmctld.log
-SlurmdDebug=debug3
+SlurmdDebug=3
 SlurmdLogFile=/var/log/slurmd.log
 JobCompType=jobcomp/none
 #JobCompLoc=
 #
 # ACCOUNTING
+#AccountingStorageEnforce=limits,qos
 JobAcctGatherType=jobacct_gather/linux
 JobAcctGatherFrequency=30
 #
@@ -113,10 +113,10 @@ NodeName=d[0011-0013] CoresPerSocket=12 RealMemory=95101
 
 # PARTITIONS
 
-PartitionName=DEFAULT DefaultTime=01:00:00 MaxTime=48:00:00 OverSubscribe=NO State=UP DefMemPerCPU=2048 GraceTime=0
+PartitionName=DEFAULT Default=NO DefaultTime=01:00:00 MaxTime=48:00:00 OverSubscribe=NO State=UP 
 
-PartitionName=condo1 Nodes=d0011 PriorityTier=10 
-PartitionName=condo2 Nodes=d0012 PriorityTier=10 
+PartitionName=condo1 Nodes=d0011 PriorityTier=10 AllowGroups=hpcadmin
+PartitionName=condo2 Nodes=d0012 PriorityTier=10 AllowGroups=hpcadmin
 PartitionName=shared Nodes=ALL Default=YES  PriorityTier=1 
-
+#PreemptMode=REQUEUE
 

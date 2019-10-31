@@ -1,4 +1,4 @@
-- hosts: compute_condo
+- hosts: compute_condo:slurm-condo
   gather_facts: no
   become: false
   strategy: free
@@ -7,11 +7,6 @@
   - name: cp slurm.conf to node
     copy: src="{{playbook_dir}}/roles/slurmctld/files/slurm.conf.condo" dest=/etc/slurm/slurm.conf mode=0644
 
-- hosts: slurm-condo
-  gather_facts: no
-  become: false
-  strategy: free
+  - name: cp cgroup.conf to node
+    copy: src="{{playbook_dir}}/roles/slurmctld/files/cgroup.conf" dest=/etc/slurm/cgroup.conf mode=0644
 
-  tasks:
-  - name: cp slurm.conf to node
-    copy: src="{{playbook_dir}}/roles/slurmctld/files/slurm.conf.condo" dest=/etc/slurm/slurm.conf mode=0644

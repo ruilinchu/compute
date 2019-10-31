@@ -1,13 +1,4 @@
-- hosts: compute_main
-  gather_facts: no
-  become: false
-  strategy: free
-
-  tasks:
-  - name: cp slurm.conf to node
-    copy: src="{{playbook_dir}}/roles/slurmctld/files/slurm.conf.main" dest=/etc/slurm/slurm.conf mode=0644
-
-- hosts: slurm
+- hosts: compute_main:slurm
   gather_facts: no
   become: false
   strategy: free
