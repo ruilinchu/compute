@@ -66,7 +66,7 @@ SelectTypeParameters=CR_Core_Memory
 GresTypes=gpu
 
 PreemptType=preempt/partition_prio
-PreemptExemptTime=00:00:00
+PreemptExemptTime=-1
 PreemptMode=CANCEL
 
 #PRIORITY and fairshare
@@ -113,10 +113,10 @@ NodeName=d[0011-0013] CoresPerSocket=12 RealMemory=95101
 
 # PARTITIONS
 
-PartitionName=DEFAULT DefaultTime=01:00:00 MaxTime=48:00:00 OverSubscribe=NO State=UP DefMemPerCPU=2048 GraceTime=0
+PartitionName=DEFAULT DefaultTime=01:00:00 MaxTime=48:00:00 OverSubscribe=NO State=UP DefMemPerCPU=2048 GraceTime=10
 
-PartitionName=condo1 Nodes=d0011 PriorityTier=10 
-PartitionName=condo2 Nodes=d0012 PriorityTier=10 
-PartitionName=shared Nodes=ALL Default=YES  PriorityTier=1 
+PartitionName=condo1 Nodes=d0011 PriorityTier=10 PriorityJobFactor=10 AllowGroups=hpcadmin
+PartitionName=condo2 Nodes=d0012 PriorityTier=10 PriorityJobFactor=10 AllowGroups=hpcadmin
+PartitionName=shared Nodes=ALL Default=YES  PriorityTier=1 PriorityJobFactor=1
 
 
